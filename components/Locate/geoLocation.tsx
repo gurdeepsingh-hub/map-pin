@@ -19,17 +19,20 @@ export const MyLocation: React.FC<LeadletMyPositionProps> = ({}) => {
           iconAnchor: [12, 12],
         }),
       });
-      var bounds = L.circleMarker(e.latlng, {
-        radius: 20,
+      var bounds = L.circle(e.latlng, {
+        radius: 150,
       });
-      const layerGroup = L.layerGroup([marker, bounds]).addTo(map);
+      const layerGroup = L.layerGroup([marker]).addTo(map);
+      map.on("zoomend", function () {
+        layerGroup.addLayer(bounds).addTo(map);
+      });
       setLayers(layerGroup);
       setLoading(false);
     },
   });
 
   return (
-    <LeafletControl position={"topleft"}>
+    <LeafletControl position={"bottomleft"}>
       <button
         className="bg-white h-10 w-10 flex justify-center items-center shadow-md rounded-md border"
         onClick={() => {
