@@ -14,9 +14,8 @@ const LeafletMap: React.FC<
 > = ({ children, ...options }) => {
   return (
     <MapContainer
-      className="h-screen w-full relative"
+      className="h-[100%] w-auto relative"
       maxZoom={18}
-      zoomDelta={0.5}
       doubleClickZoom={false}
       worldCopyJump={true}
       markerZoomAnimation={true}

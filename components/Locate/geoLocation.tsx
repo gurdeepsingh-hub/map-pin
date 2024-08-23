@@ -3,6 +3,7 @@ import { useMapEvents } from "react-leaflet";
 import LeafletControl from "../LeafletControl";
 import { MdOutlineMyLocation } from "react-icons/md";
 import L, { Layer, LayerGroup } from "leaflet";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 interface LeadletMyPositionProps {}
 
@@ -29,20 +30,33 @@ export const MyLocation: React.FC<LeadletMyPositionProps> = ({}) => {
       setLayers(layerGroup);
       setLoading(false);
     },
+    locationerror(e) {
+      console.log(e);
+      setLoading(false);
+      alert(e.message);
+    },
   });
 
   return (
     <LeafletControl position={"bottomleft"}>
       <button
-        className="bg-white h-10 w-10 flex justify-center items-center shadow-md rounded-md border"
+        className="bg-white h-10 w-10 flex justify-center items-center shadow-md rounded-md border z-[2000]"
         onClick={() => {
           setLoading(true);
-          map.locate();
           layers?.clearLayers();
+          map.locate({ setView: true, maxZoom: 15, timeout: 1000 });
         }}
         disabled={loading}
       >
-        <MdOutlineMyLocation size={20} color="black" />
+        {loading ? (
+          <AiOutlineLoading3Quarters
+            className="animate-spin"
+            size={20}
+            color="black"
+          />
+        ) : (
+          <MdOutlineMyLocation size={20} color="black" />
+        )}
       </button>
     </LeafletControl>
   );
